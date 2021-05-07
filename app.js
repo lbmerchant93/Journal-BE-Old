@@ -1,8 +1,21 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
+mongoose
+	.connect(
+		"mongodb+srv://lucas:miwi123@cluster0.y05vi.mongodb.net/miwi?retryWrites=true&w=majority",
+		{ useNewUrlParser: true, useUnifiedTopology: true }
+	)
+	.then(() => {
+		console.log("Connected to database");
+	});
 
 app.use('/graphql', graphqlHTTP({
     schema,
