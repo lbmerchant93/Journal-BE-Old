@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const _ = require('lodash');
+// const _ = require('lodash');
 const JournalEntry = require('../models/journalEntry');
 
 const { 
@@ -13,13 +13,6 @@ const {
     GraphQLError,
     GraphQLNonNull 
 } = graphql;
-
-// dummy data
-// let journalEntries = [
-//     {id: '1', date: '03/05/2021', waterIntake: 80, prenatalVitamins: true, probiotics: false, proteinIntake: 50, exercise: 30, kegels: 50, garlandPose: 6, userId: 1},
-//     {id: '2', date: '04/05/2021', waterIntake: 75, prenatalVitamins: true, probiotics: true, proteinIntake: 60, exercise: 10, kegels: 60, garlandPose: 7, userId: 1},
-//     {id: '3', date: '05/05/2021', waterIntake: 85, prenatalVitamins: false, probiotics: true, proteinIntake: 70, exercise: 20, kegels: 70, garlandPose: 8, userId: 1},
-// ];
 
 const JournalEntryType = new GraphQLObjectType({
     name: 'JournalEntry',
@@ -44,14 +37,13 @@ const RootQuery = new GraphQLObjectType({
             type: JournalEntryType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args){
-                //code to get data from db / other source
-                // return _.find(journalEntries, { id: args.id });
+                return JournalEntry.findById(args.id)
             }
         },
         journalEntries: {
             type: new GraphQLList(JournalEntryType),
             resolve(parent, args) {
-                // return journalEntries
+                return JournalEntry.find({})
             }
         },
     }
